@@ -20,11 +20,20 @@ Cache.Datastore = function(){
 	
 }();
 
-Cache.Datastore.prototype.read= function(){
-	return "Read";
+Cache.Datastore.prototype.read= function(key){
+	return localStorage[key];
+	//return "Read";
 };
-Cache.Datastore.prototype.write= function(){
-	return "Write";
+Cache.Datastore.prototype.write= function(key,value){
+	/*
+	if(typeof localStorage == 'undefined'){
+		return 'no localstorage defined';
+	}
+	else{
+	*/
+	localStorage[key]=value;
+	return localStorage[key];
+	//}
 };
 Cache.Datastore.prototype.remove = function(){
 	return "Remove";		
@@ -34,4 +43,7 @@ Cache.Datastore.prototype.flush = function(){
 };
 Cache.Datastore.prototype.update = function(){
 	return "Update";
+};
+Cache.Datastore.prototype.length = function(){
+	return localStorage.length;
 };
