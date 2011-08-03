@@ -17,8 +17,16 @@
 		this.getDecorator = function(deco){
 					//BOZO should check instance of Target.Decorator
 							var child = Target.Decorator[deco];
-							child.prototype=this;
-							return new child;	
+								child.prototype=this;
+								child = new child;
+							if( child instanceof Target.Decorator.BulletHoles || child instanceof Target.Decorator.Location || 
+									child instanceof Target.Decorator.ScoringRing || child instanceof Target.Decorator.Shooter){
+								//return new child;
+								return child;
+							}
+							else{
+								return null;
+							}
 							};
 	};
 				
