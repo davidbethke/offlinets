@@ -64,6 +64,7 @@ Target.Decorator.Location = function(){
 		return name+'Location';
 	};
 };
+
 Target.Decorator.Shooter = function(){
 	
 	this.getName = function(){
