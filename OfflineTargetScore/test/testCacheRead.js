@@ -4,6 +4,7 @@ TestCacheRead.prototype.setUp= function(){
 	cache = new Cache.Datastore();
 	cache.setType('UserTarget');
 	cache.setSize('128');
+	cache.read();
 	
 };
 
@@ -21,5 +22,17 @@ TestCacheRead.prototype.testCacheSize= function(){
 };
 
 TestCacheRead.prototype.testCacheRead= function(){
-	assertEquals('Read',cache.read());
+	assertEquals('ReadFail',cache.read());
+};
+TestCacheRead.prototype.testCacheWrite= function(){
+	assertEquals('WriteFail',cache.write());
+};
+TestCacheRead.prototype.testCacheRemove= function(){
+	assertEquals('RemoveFail',cache.remove());
+};
+TestCacheRead.prototype.testCacheFlush= function(){
+	assertEquals('FlushFail',cache.flush());
+};
+TestCacheRead.prototype.testCacheUpdate= function(){
+	assertEquals('UpdateFail',cache.update());
 };
