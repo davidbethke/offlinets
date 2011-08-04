@@ -25,15 +25,15 @@ Cache.Datastore.prototype.read= function(key){
 	//return "Read";
 };
 Cache.Datastore.prototype.write= function(key,value){
-	/*
-	if(typeof localStorage == 'undefined'){
+	
+	if( window.localStorage == 'undefined'){
 		return 'no localstorage defined';
 	}
 	else{
-	*/
+	
 	localStorage[key]=value;
 	return localStorage[key];
-	//}
+	}
 };
 Cache.Datastore.prototype.remove = function(){
 	return "Remove";		
