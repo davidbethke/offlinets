@@ -5,6 +5,7 @@
 <title>Another File Example from the book HTML5 developer's CookBook</title>
 <script>
 	
+		
 		//load the image files selected
 		function handleFiles(files){
 			//set our defaults
@@ -29,6 +30,8 @@
 					if(file.type.match(imageType)){
 						if(file.size<sizeLimitBytes){
 							//create an image container for the file
+							var dave = document.createElement('div');
+							document.body.appendChild(dave);
 							var img = document.createElement('img');
 							img.file=file;
 							img.className='unhighlight';
@@ -44,7 +47,11 @@
 														 }; 
 											  	})(img);
 							// read teh file as a data url for the Image
-							reader.readAsDataURL(file);
+							//try to store image in localstorage see what happens
+							value=reader.readAsDataURL(file);		
+							localStorage.setItem('dave'+i,'Dave');					
+							localStorage.setItem('img'+i,value);
+
 						}else{
 							//file too big
 							alert(file.name+' is larger than  '+sizeLimit+'KB');
@@ -83,6 +90,15 @@
 			//set highlight on image back to normal
 			this.className='unhighlight';
 		}
+		
+		// add localstorage elements
+		
+		/*
+		for(var i=0; i< localStorage.length; i++){
+			dave.innerHTML += localStorage.getItem('dave'+i)+ localStorage.getItem('img'+i);
+		}
+		*/	
+		
 </script>
 <style>
 	.highlight,.unhighlight{
@@ -104,7 +120,8 @@
 <body>
 	<h1>Select the images to preview</h1>
 	<section>
-		<input type="file" id="input" multiple='true' onchange="handleFiles(this.files)">
+		<input type="file" id="input" multiple='true'  onchange="handleFiles(this.files)">
+		
 	</section>
 	<section id='imgPanel'></section>
 	<section id='fileAttributes'></section>
