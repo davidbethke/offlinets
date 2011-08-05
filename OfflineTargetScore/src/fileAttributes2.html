@@ -1,0 +1,112 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Another File Example from the book HTML5 developer's CookBook</title>
+<script>
+	
+		//load the image files selected
+		function handleFiles(files){
+			//set our defaults
+			var fileLimit=10; //max files at one time
+			var sizeLimit=500;   //KB file size limit
+			var imageType=/image.*/; //mime type of images -regular expression
+			
+			//reference the image panel anc clear
+			var imgPanel = document.getElementById('imgPanel');
+			imgPanel.innerHTML='';
+			
+			//calc the files size limit in bytes
+			var sizeLimitBytes = sizeLimit*1024;
+			
+			//check if the num of files is w/in limits
+			if(files.length <fileLimit){
+				//loop thru the fileList
+				for(var i=0; i< files.length; i++){
+					file=files[i];
+					//var fileName=document.createTextNode(file.value);
+					//document.body.appendChild(fileName);
+					if(file.type.match(imageType)){
+						if(file.size<sizeLimitBytes){
+							//create an image container for the file
+							var img = document.createElement('img');
+							img.file=file;
+							img.className='unhighlight';
+							img.addEventListener('mouseover',showFile,false);
+							img.addEventListener('mouseout',clearFile,false);
+							imgPanel.appendChild(img);
+							//create our reader to read the file
+							var reader= new FileReader();
+							//set the onload event of the reader
+							 reader.onload = (function(aImg) 
+							 					{ return function(e) 
+														{ aImg.src = e.target.result;
+														 }; 
+											  	})(img);
+							// read teh file as a data url for the Image
+							reader.readAsDataURL(file);
+						}else{
+							//file too big
+							alert(file.name+' is larger than  '+sizeLimit+'KB');
+							
+						}
+					} else{
+						//file is not an image mime type
+						alert(file.name+' is not an image.');
+					}
+				}
+			}else {
+				//too many files were slected
+				imgPanel.innerHTML='Only ' +fileLimit+'files can be selected at a time';
+			}
+			
+		}
+		//display the info on the image moused over
+		function showFile(){
+			//highlight the current image
+			this.className='highlight';
+			//get refs to our attributes panel and file
+			var fileAttributes= document.getElementById('fileAttributes');
+			var file=this.file;
+			//create our file info
+			var fileinfo='Fileinfo:<br>';
+			fileinfo += file.name+'<br>';
+			fileinfo += file.type+'<br>';
+			fileinfo +=(file.size/1024).toFixed(2)+'KB<br>';
+			//display
+			fileAttributes.innerHTML=fileinfo;		
+		}
+		function clearFile(){
+			//clear the file attributes panel
+			var fileAttributes= document.getElementById('fileAttributes');
+			fileAttributes.innerHTML='';
+			//set highlight on image back to normal
+			this.className='unhighlight';
+		}
+</script>
+<style>
+	.highlight,.unhighlight{
+		max-height:100px;
+		max-width:100px;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border-radius: 5px;
+		margin:10px;
+	}
+	.highlight{
+		border: 5px solid #6f0;
+	}
+	.unhighlight{
+		border: 5px solid #000;
+	}
+</style>
+</head>
+<body>
+	<h1>Select the images to preview</h1>
+	<section>
+		<input type="file" id="input" multiple='true' onchange="handleFiles(this.files)">
+	</section>
+	<section id='imgPanel'></section>
+	<section id='fileAttributes'></section>
+</body>
+</html>
