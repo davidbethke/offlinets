@@ -48,10 +48,8 @@
 											  	})(img);
 							// read teh file as a data url for the Image
 							//try to store image in localstorage see what happens
-							value=reader.readAsDataURL(file);		
-							localStorage.setItem('dave'+i,'Dave');					
-							localStorage.setItem('img'+i,value);
-
+							reader.readAsDataURL(file);		
+							
 						}else{
 							//file too big
 							alert(file.name+' is larger than  '+sizeLimit+'KB');
@@ -121,7 +119,6 @@
 	<h1>Select the images to preview</h1>
 	<section>
 		<input type="file" id="input" multiple='true'  onchange="handleFiles(this.files)">
-		
 	</section>
 	<section id='imgPanel'></section>
 	<section id='fileAttributes'></section>

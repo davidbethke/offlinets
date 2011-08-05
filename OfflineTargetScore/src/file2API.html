@@ -1,0 +1,71 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Try to 'upload' a file to the api file system</title>
+<script type='text/javascript'>
+	
+	var myImg = new Array();
+	localStorage.clear();
+	
+	function handleFiles(files){
+		var fileLimit = 10; //max files at one time
+		var sizeLimit = 500; //KB file size limit
+		var imageType = /image.*/; //mime type of images -regular expression
+		var images=document.getElementById('images');
+		for (var i=0; i<files.length; i++) {
+			var file = files[i];
+			var value;
+			if (file.type.match(imageType)) {
+				var img=document.createElement('img');
+				var reader= new FileReader();
+				images.appendChild(img);
+				reader.onload=(function(aImg,aI){
+					return function(e){
+						var key='image'+aI;
+						localStorage.setItem(key, e.target.result);	
+						myImg[aI]= e.target.result;		
+						aImg.src=e.target.result;	
+					};
+				})(img,i);
+				reader.readAsDataURL(file);	
+				
+			}
+			
+		}
+	}
+	
+	function readLocal(){
+		document.getElementById('imgPLocal').innerHTML='You Clicked '+localStorage.length;
+		for (var i=0; i< localStorage.length; i++){
+			var key='image'+i;
+			
+			var img=document.createElement('img');
+			img.src=localStorage.getItem(key);
+			document.getElementById('imgLocal').appendChild(img);	
+		}
+	}
+	function readArray(){
+		document.getElementById('imgPanel').innerHTML='You Clicked '+myImg.length;
+		for(var i=0; i< myImg.length;i++){
+			img=document.createElement('img');
+			img.src=myImg[i];
+			document.getElementById('imgArray').appendChild(img);
+		}
+	}
+	
+</script>
+</head>
+<body>
+	<h1>Select the images to Copy</h1>
+	<section>
+		<input type="file" id="input" multiple='true'  onchange="handleFiles(this.files)">
+	</section><br/>
+	<section id='imgPLocal' onclick='readLocal()'>click to read Local</section><br/>
+	<section id='imgPanel' onclick='readArray()'>click to read Array</section><br/>
+	<section id='images'></section><br/>
+	<section id='imgArray'></section><br/>
+	<section id='imgLocal'></section>
+	
+</body>
+</html>
