@@ -20,6 +20,7 @@
 				var img=document.createElement('img');
 				var reader= new FileReader();
 				images.appendChild(img);
+		
 				reader.onload=(function(aImg,aI){
 					return function(e){
 						var key='image'+aI;
@@ -28,6 +29,7 @@
 						aImg.src=e.target.result;	
 					};
 				})(img,i);
+				
 				reader.readAsDataURL(file);	
 				
 			}
